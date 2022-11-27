@@ -1,0 +1,247 @@
+
+.category-wrapper {
+    background-color: #fff;
+    padding: 6px;
+}
+
+.category__header {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 6px 0;
+}
+
+.category-list {
+
+}
+
+.category-item {
+
+}
+
+.category__header__menu-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.category-list {
+    margin-top: 10px;
+}
+
+.category-item {
+    display: block;
+    text-decoration: none;
+    padding: 6px 6px 6px 30px;
+}
+
+.category-item:hover {
+    color: red;
+}
+
+/*SORT SELECTION*/
+.products__sort-selection {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 10px 16px;
+    font-size: 14px;
+    align-items: center;
+}
+
+.products__sort-selection__heading-text {
+    opacity: 0.9;
+}
+
+.products__sort-selection__item {
+    background-color: #fff;
+    padding: 8px 10px;
+    border-radius: 2px;
+    margin-left: 20px;
+}
+
+.products__sort-selection__price__selected {
+}
+
+.products__sort-selection__price__popover {
+    display: none;
+    position: absolute;
+}
+
+.products__sort-selection__price {
+    position: relative;
+    width: 180px;
+
+}
+
+.products__sort-selection__price::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 100%;
+    height: 10px;
+}
+
+.products__sort-selection__price__selected {
+    display: flex;
+    align-items: center;
+}
+
+.products__sort-selection__price__selected__text {
+    flex: 1;
+}
+
+.products__sort-selection__price__selected__icon {
+
+}
+
+.products__sort-selection__price:hover .products__sort-selection__price__popover {
+    display: block;
+}
+
+.products__sort-selection__price__popover {
+    display: none;
+    top: calc(100% + 2px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+.products__sort-selection__price-item:hover {
+    color: red;
+}
+
+.products__sort-selection__price-item {
+    padding: 8px 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.products .row {
+    margin-left: -32px;
+    margin-right: -32px;
+}
+
+.products {
+    margin-top: 10px;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+}
+
+.product {
+    background-color: #fff;
+    margin: 6px 0;
+    text-align: center;
+    border-radius: 2px;
+    display: block;
+    text-decoration: none;
+}
+
+.product__image {
+    padding-top: 67%;
+    background-size: cover;
+    border-radius: 2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.product__name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 20px;
+}
+
+.product__price {
+    font-weight: 600;
+    color: red;
+    padding-bottom: 8px;
+    position: relative;
+}
+
+.product__price::after {
+    content: "đ";
+    font-size: 10px;
+    top: 0;
+    margin-left: 2px;
+    position: absolute;
+
+}
+
+.category-item.active {
+    color: red;
+}
+
+.no-products-found {
+    margin-top: 60px;
+    color: var(--near-red);
+    font-weight: 600;
+    text-align: CENTER;
+    /* align-self: CENTER; */
+    font-size: 20px;
+}
+
+/*FILTER*/
+.search__filter__heading {
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search__filter__heading-text {
+    font-weight: 600;
+}
+
+.search__filter__group {
+    padding: 8px 0;
+}
+
+.search__filter__group__text-descripton {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.search__filter__group__content.search__filter__price-range {
+    display: flex;
+}
+
+.search__filter__price-range__input {
+    font-size: 12px;
+    width: 100%;
+}
+
+.search__filter__price-range__line {
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.search__filter__apply-btn {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+ /*ORDER BAR OPTION*/
+
+.order-bar__option.active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.order-bar__option {
+    background-color: #fff;
+    display: inline-block;
+    min-width: 88px;
+    border-radius: 2px;
+    cursor: pointer;
+}
