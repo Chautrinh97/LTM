@@ -15,91 +15,40 @@ import java.io.IOException;
 import java.util.List;
 
 public class CategoryBO {
-	private final int NUMBER_OF_RECORDS_PER_PAGE = 10;
 	private CategoryDAO categoryDAO = new CategoryDAO();
-	private HttpSession session;
 
-	public void listCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String keyword = request.getParameter("keyword");
-		String sortBy = getOrder(request);
-		List<Category> categoryList;
-		int begin = RequestUtils.getBegin(request, NUMBER_OF_RECORDS_PER_PAGE);
-		categoryList = categoryDAO.get(begin, NUMBER_OF_RECORDS_PER_PAGE, keyword, sortBy, null);
-		int numberOfPages = (categoryDAO.count(keyword, null) - 1) / NUMBER_OF_RECORDS_PER_PAGE + 1;
-		request.setAttribute("numberOfPages", numberOfPages);
-		request.setAttribute("list", categoryList);
-		request.setAttribute("requestURI", request.getRequestURI());
-		request.setAttribute("tab", "categories");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manage/home.jsp");
-		dispatcher.forward(request, response);
+	public List<Category> get(int begin, int number_of_records_per_page, String keyword, String sortBy, String order) {
+		return categoryDAO.get(begin, number_of_records_per_page,keyword,sortBy, order);
+	}
+	public Category get(int categoryId){
+		return categoryDAO.get(categoryId);
+	}
+	public int count(String keyword, String field) {
+		return categoryDAO.count(keyword, field);
 	}
 
-	private String getOrder(HttpServletRequest request) {
-		String sortBy = request.getParameter("sortBy");
-		if (sortBy != null) {
-			switch (sortBy) {
-				case "default":
-					sortBy = null;
-					break;
-				case "name":
-					sortBy = "category_name";
-					break;
-			}
-		}
-		return sortBy;
+	public Category find(String categoryName) {
+		return categoryDAO.find(categoryName);
 	}
 
-	public void create(HttpServletRequest request, HttpServletResponse response) {
-		String categoryName = request.getParameter("categoryName");
-		session = request.getSession();
-
-		if (categoryDAO.find(categoryName) == null) {
-			Category category = new Category(categoryName);
-			categoryDAO.create(category);
-			session.setAttribute("successMessage", "Thêm doanh mục thành công");
-
-		} else {
-			session.setAttribute("errorMessage", "Tên doanh mục đã tồn tại");
-		}
-		try {
-			response.sendRedirect(request.getContextPath() + "/admin/categories");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void create(String categoryName) {
+		Category category = new Category(categoryName);
+		categoryDAO.create(category);
+	}
+	public void update(int categoryId, String categoryName) {
+		Category category = new Category(categoryId, categoryName);
+        categoryDAO.update(category);
 	}
 
-	public void update(HttpServletRequest request, HttpServletResponse response) {
-		String categoryName = request.getParameter("categoryName");
-		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-		session = request.getSession();
-
-		if (categoryDAO.find(categoryName) == null) {
-			Category category = new Category(categoryId, categoryName);
-			categoryDAO.update(category);
-			session.setAttribute("successMessage", "Sửa doanh mục thành công");
-		} else if (categoryDAO.find(categoryName).getCategoryId() != categoryId) {
-			session.setAttribute("errorMessage", "Tên doanh mục đã tồn tại");
-		} else {
-			Category category = new Category(categoryId, categoryName);
-			categoryDAO.update(category);
-		}
-		try {
-			response.sendRedirect(request.getContextPath() + "/admin/categories");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
-		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-
+	public void delete(int categoryId) {
 		categoryDAO.delete(categoryId);
-		session = request.getSession();
-		session.setAttribute("successMessage", "Xóa doanh mục thành công");
-		try {
-			response.sendRedirect(request.getContextPath() + "/admin/categories");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	}
+
+	public List<Category> getAll(String orderBy, String order) {
+		return categoryDAO.getAll(orderBy, order);
+	}
+
+	public List<Category> getAll() {
+		return categoryDAO.getAll();
 	}
 }

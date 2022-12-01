@@ -1,7 +1,9 @@
 package com.ctv.controller.customer;
 
+import com.ctv.model.bean.Customer;
 import com.ctv.model.bo.CustomerBO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,14 +16,16 @@ import java.io.IOException;
 
 public class CustomerLoginController
 		extends HttpServlet {
+	private final String CUSTOMER_LOGIN_PAGE = "/customer/login/login.jsp";
 	private final CustomerBO customerBO = new CustomerBO();
+	private HttpSession session;
 	@Override
 	protected void doGet(
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		session.removeAttribute("postData");
-		customerBO.showLoginForm(request, response);
+		showLoginForm(request, response);
 	}
 
 	@Override
@@ -29,10 +33,44 @@ public class CustomerLoginController
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String account = request.getParameter("account");
 		if (account != null) {
-			customerBO.authenticate(request, response);
+			authenticate(request, response);
 		} else {
-			customerBO.showLoginForm(request, response);
+			showLoginForm(request, response);
 		}
 	}
+	public void showLoginForm(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException {
+		request.setAttribute("headerAction", "Đăng nhập");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(CUSTOMER_LOGIN_PAGE);
+		dispatcher.forward(request, response);
+	}
+	public void authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException,
+			ServletException {
+		session = request.getSession();
+		String from = request.getParameter("from");
+		if (from.equals("")) {
+			from = request.getContextPath();
+		}
+		String account = request.getParameter("account");
+		String password = request.getParameter("password");
+		Customer customer = new Customer();
+		boolean isPhoneNumber = (account.indexOf('@') == -1);
+		if (isPhoneNumber) {
+			customer.setPhoneNumber(account);
+		} else {
+			customer.setEmail(account);
+		}
+		customer.setPassword(password);
 
+		Customer authenticatedCustomer;
+		// TH1: tài khoản tồn tại
+		authenticatedCustomer = customerBO.validate(customer);
+		if (authenticatedCustomer != null) {
+			session.setAttribute("customer", authenticatedCustomer);
+			response.sendRedirect(from);
+		} else {
+			request.setAttribute("loginMessage", "Sai tài khoản hoặc mật khẩu");
+			showLoginForm(request, response);
+		}
+	}
 }
