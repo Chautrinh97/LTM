@@ -1,0 +1,116 @@
+
+#coba {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.spartan_item_wrapper {
+    margin-right: 32px;
+}
+
+.dimen-mater-price-group {
+    flex-wrap: wrap;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.form-group__minus-row-btn {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.form-group__add-row-btn {
+    margin-left: 60px;
+    padding-left: 20px;
+    margin-bottom: 40px;
+    font-size: 18px;
+    width: 80px;
+    cursor: pointer;
+}
+
+.dimen-mater-price-group {
+    flex-wrap: wrap;
+}
+
+.dimension-form-group__input {
+    display: flex;
+}
+
+.material-form-group__label.form-group__label {
+    margin-left: 40px;
+    min-width: 80px;
+}
+
+.price-form-group__label.form-group__label {
+    margin-left: 40px;
+    min-width: 80px;
+}
+
+.price-form-group__input input {
+    width: 100px;
+}
+
+.dimension-form-item input {
+    width: 60px;
+}
+
+.form-group {
+    all: unset;
+    margin-bottom: 4px;
+    display: flex;
+}
+
+.form-group__label {
+    min-width: 160px;
+    margin-left: 80px;
+}
+
+.dimension-form-group,
+.material-form-group, .price-form-group {
+    display: flex;
+
+}
+
+.dimension-form-item__text-label {
+    margin-right: 10px;
+}
+
+
+.save-btn {
+    color: #fff;
+    padding: 8px 12px;
+}
+
+.warranty-period-unit {
+    margin-left: 10px;
+}
+
+.btn.btn-primary.save-btn {
+    margin-left: 480px;
+    margin-top: 20px;
+}
+
+.input-images-item {
+    width: 200px;
+    height: 120px;
+    border: 1px solid #000;
+    border-radius: 2px;
+}
+
+.input-images-wrapper {
+    width: 100%;
+}
+.material-form-group__row {
+    display: flex;
+}
+.material-form-group__add-row {
+    all: unset;
+    margin-left: 40px;
+}
+.price-form-group__row {
+    display: flex;
+}
+.price-form-group__add-row {
+    margin-left: 20px;
+}

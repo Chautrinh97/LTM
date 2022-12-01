@@ -67,6 +67,88 @@ public class ProductDAO
 		}
 		return productList;
 	}
+	public Product create(Product product) {
+		String sql = "INSERT INTO product(product_name, warranty_period, description,dimension,material,price," +
+				"category_id,uri) VALUES (?,?,?,?,?,?,?,?)";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = DataSourceHelper.getDataSource().getConnection();
+			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			connection.setAutoCommit(false);
+			statement.setString(1, product.getName());
+			statement.setInt(2, product.getWarrantyPeriod());
+			statement.setString(3, product.getDescription());
+			statement.setString(4, product.getDimension());
+			statement.setString(5, product.getMaterial());
+			statement.setInt(6, product.getPrice());
+			if (product.getCategory() == null) {
+				statement.setNull(7, Types.INTEGER);
+			} else
+				statement.setInt(7, product.getCategory().getCategoryId());
+			statement.setString(8, product.getUri());
+			statement.execute();
+			ResultSet resultSet = statement.getGeneratedKeys();
+			while (resultSet.next()) {
+				int productId = resultSet.getInt(1);
+				product.setProductId(productId);
+			}
+			connection.commit();
+			resultSet.close();
+			return product;
+
+		} catch (SQLException e) {
+			try {
+				if (connection != null) connection.rollback();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) statement.close();
+				if (connection != null) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+
+	}
+	public Product update(Product product) {
+		String sql = "UPDATE product SET product_name=?, warranty_period=?,  description=?, " +
+				"dimension = ?, material = ?, price = ?, category_id=?, uri=? WHERE product_id=?";
+		try (Connection connection = DataSourceHelper.getDataSource().getConnection();
+		     PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, product.getName());
+			statement.setInt(2, product.getWarrantyPeriod());
+			statement.setString(3, product.getDescription());
+			statement.setString(4, product.getDimension());
+			statement.setString(5, product.getMaterial());
+			statement.setInt(6, product.getPrice());
+			if (product.getCategory() == null) {
+				statement.setNull(7, Types.INTEGER);
+			} else
+				statement.setInt(7, product.getCategory().getCategoryId());
+			statement.setString(8, product.getUri());
+			statement.setInt(9, product.getProductId());
+			statement.executeUpdate();
+			return product;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public void delete(int productId) {
+		String sql = "DELETE FROM product WHERE product_id = ?";
+		try (Connection connection = DataSourceHelper.getDataSource().getConnection();
+		     PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setInt(1, productId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Product map(ResultSet resultSet) {
@@ -118,7 +200,8 @@ public class ProductDAO
 		if (order == null) order = "ASC";
 		List<Product> productList = new ArrayList<>();
 		String sql =
-				"SELECT product.* FROM "+(keyword!=null? "product JOIN category c ON product.category_id = c.category_id":
+				"SELECT product.* FROM "+(keyword!=null? "product LEFT JOIN category c ON product.category_id = c" +
+						".category_id":
 						"product")+
 						(keyword != null ?
 								" WHERE (product_name  LIKE '%" + keyword +

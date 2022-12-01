@@ -23,7 +23,19 @@ public class ImagePathDAO
 		return null;
 	}
 
-
+	public ImagePath create(ImagePath imagePath) {
+		String sql = "INSERT INTO image VALUES(?,?)";
+		try(Connection connection = DataSourceHelper.getDataSource().getConnection();
+		    PreparedStatement statement = connection.prepareStatement(sql)){
+			statement.setInt(1,imagePath.getProductId());
+			statement.setString(2,imagePath.getPath());
+			statement.execute();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return imagePath;
+	}
 	@Override
 	public ImagePath map(ResultSet resultSet) {
 		return null;
@@ -49,5 +61,15 @@ public class ImagePathDAO
 			e.printStackTrace();
 		}
 		return imagePathList;
+	}
+	public void delete(int productId) {
+		String sql = "DELETE FROM image WHERE product_id=?";
+		try (Connection connection = DataSourceHelper.getDataSource().getConnection();
+		     PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setInt(1, productId);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.ctv.filter;
 
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -26,17 +27,28 @@ public class CustomerFilter
 		request.setCharacterEncoding("UTF-8");
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpSession session = httpServletRequest.getSession();
 		String requestURL = httpServletRequest.getRequestURL().toString();
 		String queryString = httpServletRequest.getQueryString();
 		String servletPath = httpServletRequest.getServletPath();
+		boolean isAdminRequest = servletPath.startsWith("/admin");
 		boolean isLoggedIn = httpServletRequest.getSession().getAttribute("customer") != null;
 		boolean isLoginRequest = servletPath.equals("/login");
 		boolean isLoginPage = requestURL.endsWith("login.jsp");
 		boolean isResourceRequest =
 				((requestURL.endsWith(".css")) || (requestURL.endsWith(".js")) || (requestURL.endsWith(".jpg") || (requestURL.endsWith("favicon.ico"))));
 
-		if (isLogInRequired(servletPath) && (!isLoggedIn) && (!isLoginRequest) && (!isLoginPage) && (!isResourceRequest)) {
+		if ((!isAdminRequest) && isLogInRequired(servletPath) && (!isLoggedIn) && (!isLoginRequest) && (!isLoginPage) && (!isResourceRequest)) {
+			String method = httpServletRequest.getMethod();
+			if (method.equals("POST")) {
+				session.setAttribute("postData", IOUtils.toString(request.getReader()));
+				httpServletResponse.setStatus(307);
+				httpServletResponse.setHeader("Location",
+						httpServletRequest.getContextPath() + "/login?from=" + requestURL + (queryString == null ? "" : "?" + queryString));
+			}
+			else{
 				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login?from=" + requestURL + (queryString == null ? "" : "?" + queryString));
+			}
 		} else {
 			httpServletRequest.setAttribute("uri", requestURL + (queryString==null?"":"?"+queryString));
 			chain.doFilter(request, response);

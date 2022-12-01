@@ -1,0 +1,162 @@
+td {
+    vertical-align: middle;
+}
+
+ul {
+    list-style: disc;
+    margin-left: 10px;
+}
+
+.slide-navbar {
+    margin-top: 60px;
+    padding-left: 10px;
+}
+
+.navbar__tab {
+    padding: 10px 0;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+}
+
+.navbar__tab.active {
+    color: var(--primary-color);
+}
+
+.navbar__tab:hover {
+    color: var(--primary-color);
+}
+
+.navbar__tab__icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.navbar__tab__text-description {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.tab__content {
+    padding: 12px 0;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search__form {
+    display: flex;
+    align-items: center;
+    margin-right: 200px;
+    flex-grow: 1;
+    font-size: 14px;
+}
+
+.search__add-btn {
+    padding: 10px 12px;
+    margin-right: 10px;
+    margin-left: 100px;
+}
+
+.save-btn {
+    width: 40%;
+    margin-top: 20px;
+}
+
+.toast-message {
+
+    margin-bottom: 10px;
+    box-shadow: none;
+}
+
+.toast-message--error {
+    color: #842029;
+    background-color: #F8D7DA;
+}
+
+.toast-message--success {
+    background-color: #D1E7DD;
+    color: #447A61;
+}
+
+.column__action {
+    white-space: nowrap;
+}
+
+.list {
+    margin-top: 16px;
+    overflow-x: auto;
+}
+
+.dataTables_length {
+    margin-bottom: 20px;
+}
+
+td.product__name {
+    min-width: 120px;
+}
+
+td.product__dimension, td.product__price, td.product__category {
+    white-space: nowrap;
+}
+
+td.product__material {
+    min-width: 120px;
+}
+
+.product__rating, .product__quantity {
+    text-align: center;
+}
+
+#product-image-slide {
+    width: 200px;
+}
+
+.carousel .carousel-control-next-icon, .carousel .carousel-control-prev-icon {
+    filter: invert(0.4) grayscale(100);
+}
+
+img.product__main-image {
+    width: 100%;
+    height: 120px;
+}
+
+.expand-button {
+    display: none;
+}
+.delete-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn.confirm-delete-btn {
+    background-color: #F8D7DA;
+    color: #A22029;
+    width: 40%;
+    margin-top: 20px;
+
+}
+
+.product__add-quantity{
+    white-space: nowrap;
+}
+.inventory__tabs{
+    display: none;
+}
+
+.no-records {
+    text-align: center;
+    font-weight: 500;
+}
+
+.product__image{
+    width: 240px;
+}
+
+.activate-btn{
+    width: 100px;
+}
